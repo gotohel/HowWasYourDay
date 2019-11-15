@@ -1,0 +1,38 @@
+# Android Studio
+.gradle
+.DS_Store
+/build
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+/local.properties
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+/captures
+
+# etc
+.externalNativeBuild
+
+app/release/
+app/debug/
+
+# Secret Api Keys. (HwaminSon 에게 요청)
+app/src/main/res/values/secret_api_keys.xml
