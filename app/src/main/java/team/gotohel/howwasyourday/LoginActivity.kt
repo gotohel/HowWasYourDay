@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity: AppCompatActivity() {
 
-    lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
+    private lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -29,6 +29,10 @@ class LoginActivity: AppCompatActivity() {
 
             }
         })
+
+        if (MyPreference.stayLogin && MyPreference.savedUserId != null && MyPreference.savedUserName != null) {
+            connectToSendBird(MyPreference.savedUserId!!, MyPreference.savedUserName!!)
+        }
     }
 
     fun startChat(view: View) {
