@@ -3,16 +3,32 @@ package team.gotohel.howwasyourday
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.sendbird.android.SendBird
 import kotlinx.android.synthetic.main.activity_login.*
 
+
 class LoginActivity: AppCompatActivity() {
+
+    lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
 
+        // callback for do something
+        sheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(view: View, newState: Int) {
+
+            }
+
+            override fun onSlide(view: View, v: Float) {
+
+            }
+        })
     }
 
     fun startChat(view: View) {
@@ -27,6 +43,14 @@ class LoginActivity: AppCompatActivity() {
                 MyPreference.savedUserName = inputName
                 connectToSendBird(inputId, inputName)
             }
+        }
+    }
+
+    fun showHideBottomSheet() {
+        if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+        } else {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
         }
     }
 
