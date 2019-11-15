@@ -28,6 +28,10 @@ android {
     }
 }
 
+repositories {
+    maven { url "https://raw.githubusercontent.com/sendbird/SendBird-SDK-Android/master/" }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -50,6 +54,9 @@ dependencies {
     // okhttp
     implementation "com.squareup.okhttp3:okhttp:3.12.1"
     implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
+
+    // SendBird
+    implementation 'com.sendbird.sdk:sendbird-android-sdk:3.0.107'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
