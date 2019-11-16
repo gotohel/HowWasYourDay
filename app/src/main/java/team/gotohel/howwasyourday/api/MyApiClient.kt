@@ -11,6 +11,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import team.gotohel.howwasyourday.BuildConfig
+import team.gotohel.howwasyourday.model.*
 import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -22,15 +23,15 @@ import java.util.concurrent.TimeUnit
  * path -> @Path
  */
 
-class SampleApiClient() {
+class MyApiClient {
 
     companion object {
         private val BASE_URL_API_SERVER_DEFAULT = "https://sample.gotohel.team/"
 
-        private var apiClient: SampleApiClient? = null
-        fun getInstance(): SampleApiClient {
+        private var apiClient: MyApiClient? = null
+        fun getInstance(): MyApiClient {
             if (apiClient == null) {
-                apiClient = SampleApiClient()
+                apiClient = MyApiClient()
             }
             return apiClient!!
         }
@@ -39,6 +40,23 @@ class SampleApiClient() {
     interface APIService {
         @GET("search/something")
         fun searchSomething(@Query("key") key: String): Single<String>
+
+        @POST("user/register")
+        fun registerUser(@Body postUserRegister: PostUserRegister): Single<User>
+
+        @POST("user/login")
+        fun login(@Body postLogin: PostLogin): Single<User>
+
+        @POST("dailylog/upload")
+        fun uploadDailyLog(@Body postDailyLog: PostDailyLog): Single<ResDailyLog>
+
+        @GET("dailylog")
+        fun getDailyLogs(
+            @Query("user_id") user_id: String,
+            @Query("date") date: String,
+            @Query("page") page: Int,
+            @Query("size") size: Int
+        ): Single<ResDailyLogList>
     }
 
     var retrofit: Retrofit
