@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit
 class MyApiClient {
 
     companion object {
-        private val BASE_URL_API_SERVER_DEFAULT = "https://sample.gotohel.team/"
+        private val BASE_URL_API_SERVER_DEFAULT = "http://env-test.cqemmcnhtr.us-west-2.elasticbeanstalk.com/"
 
         private var apiClient: MyApiClient? = null
         fun getInstance(): MyApiClient {

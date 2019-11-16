@@ -17,18 +17,15 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
 
     private object ViewType {
         const val LOADING = 0
-        const val ITEM = 1
+        const val ITEM_MY = 1
+        const val ITEM_OTHER = 2
+        const val ITEM_DOCTOR = 3
     }
 
     var mItemClickListener: OnItemClickListener? = null
-    var mItemLongClickListener: OnItemLongClickListener? = null
 
     interface OnItemClickListener {
         fun onItemClick(channel: GroupChannel)
-    }
-
-    interface OnItemLongClickListener {
-        fun onItemLongClick(channel: GroupChannel)
     }
 
     private var chatList: MutableList<GroupChannel>? = null
@@ -38,122 +35,62 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
         notifyDataSetChanged()
     }
 
-    fun updateOrInsert(channel: BaseChannel) {
-        if (channel !is GroupChannel || chatList == null) {
-            return
-        }
-
-        for (i in chatList!!.indices) {
-            if (chatList!![i].url == channel.url) {
-                chatList!!.remove(chatList!![i])
-                chatList!!.add(0, channel)
-                notifyDataSetChanged()
-                return
-            }
-        }
-
-        chatList!!.add(0, channel)
-        notifyDataSetChanged()
-    }
-
     override fun getItemCount(): Int {
         return chatList?.size ?: 1
     }
 
     override fun getItemViewType(position: Int): Int {
         return if (chatList != null) {
-            ViewType.ITEM
+            (position % 3) + 1 // FIXME
         } else {
             ViewType.LOADING
         }
     }
 
-    class ChatViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ChatMyViewHolder internal constructor(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private val textUserName = itemView.findViewById(R.id.text_user_name) as TextView
+        private val textLastMessageTime = itemView.findViewById(R.id.text_last_message_time) as TextView
+        private val textLastMessage = itemView.findViewById(R.id.text_last_message) as TextView
 
+        fun bind(channel: GroupChannel, clickListener: OnItemClickListener?) {
+            textUserName.text = channel.members.joinToString(", ") { it.nickname }
+            textLastMessageTime.text = DateTimeHelper.getEditingDay(channel.lastMessage.createdAt)
+            textLastMessage.text = (channel.lastMessage as? UserMessage)?.message ?: ""
 
-
-        val topicText = itemView.findViewById(R.id.text_group_channel_list_topic) as TextView
-        val lastMessageText = itemView.findViewById(R.id.text_group_channel_list_message) as TextView
-        val unreadCountText = itemView.findViewById(R.id.text_group_channel_list_unread_count) as TextView
-        val dateText = itemView.findViewById(R.id.text_group_channel_list_date) as TextView
-        val memberCountText = itemView.findViewById(R.id.text_group_channel_list_member_count) as TextView
-        val coverImage = itemView.findViewById(R.id.image_group_channel_list_cover) as ImageView
-        val typingIndicatorContainer = itemView.findViewById(R.id.container_group_channel_list_typing_indicator) as LinearLayout
-
-
-        internal fun bind(
-            channel: GroupChannel,
-            clickListener: OnItemClickListener?,
-            longClickListener: OnItemLongClickListener?
-        ) {
-            topicText.text = channel.members.joinToString(",") { it.nickname }
-            memberCountText.text = channel.memberCount.toString()
-
-//            setChannelImage(context, position, channel, coverImage)
-
-            val unreadCount = channel.unreadMessageCount
-            // If there are no unread messages, hide the unread count badge.
-            if (unreadCount == 0) {
-                unreadCountText.visibility = View.INVISIBLE
-            } else {
-                unreadCountText.visibility = View.VISIBLE
-                unreadCountText.text = channel.unreadMessageCount.toString()
-            }
-
-            val lastMessage = channel.lastMessage
-            if (lastMessage != null) {
-                dateText.visibility = View.VISIBLE
-                lastMessageText.visibility = View.VISIBLE
-
-                // Display information about the most recently sent message in the channel.
-                dateText.text = DateTimeHelper.getEditingDay(lastMessage.createdAt)
-
-                // Bind last message text according to the type of message. Specifically, if
-                // the last message is a File Message, there must be special formatting.
-                when (lastMessage) {
-                    is UserMessage -> lastMessageText.text = lastMessage.message
-                    is AdminMessage -> lastMessageText.text = lastMessage.message
-                    else -> {
-                        lastMessageText.text = lastMessage::class.java.simpleName
-                    }
-                }
-
-                lastMessageText.text = lastMessage::class.java.simpleName // fixme  지우기..
-            } else {
-                dateText.visibility = View.INVISIBLE
-                lastMessageText.visibility = View.INVISIBLE
-            }
-
-            // typing indicator animation
-//            val indicatorImages = ArrayList<ImageView>()
-//            indicatorImages.add(typingIndicatorContainer.findViewById(R.id.typing_indicator_dot_1) as ImageView)
-//            indicatorImages.add(typingIndicatorContainer.findViewById(R.id.typing_indicator_dot_2) as ImageView)
-//            indicatorImages.add(typingIndicatorContainer.findViewById(R.id.typing_indicator_dot_3) as ImageView)
-//            val indicator = TypingIndicator(indicatorImages, 600)
-//            indicator.animate()
-
-            // If someone in the channel is typing, display the typing indicator.
-            if (channel.isTyping) {
-                typingIndicatorContainer.visibility = View.VISIBLE
-                lastMessageText.text = "Someone is typing"
-            } else {
-                // Display typing indicator only when someone is typing
-                typingIndicatorContainer.visibility = View.GONE
-            }
-
-            // Set an OnClickListener to this item.
             if (clickListener != null) {
                 itemView.setOnClickListener { clickListener.onItemClick(channel) }
             }
+        }
+    }
 
-            // Set an OnLongClickListener to this item.
-            if (longClickListener != null) {
-                itemView.setOnLongClickListener {
-                    longClickListener!!.onItemLongClick(channel)
+    class ChatOtherViewHolder internal constructor(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private val textUserName = itemView.findViewById(R.id.text_user_name) as TextView
+        private val textLastMessageTime = itemView.findViewById(R.id.text_last_message_time) as TextView
+        private val textLastMessage = itemView.findViewById(R.id.text_last_message) as TextView
 
-                    // return true if the callback consumed the long click
-                    true
-                }
+        fun bind(channel: GroupChannel, clickListener: OnItemClickListener?) {
+            textUserName.text = channel.members.joinToString(", ") { it.nickname }
+            textLastMessageTime.text = DateTimeHelper.getEditingDay(channel.lastMessage.createdAt)
+            textLastMessage.text = (channel.lastMessage as? UserMessage)?.message ?: ""
+
+            if (clickListener != null) {
+                itemView.setOnClickListener { clickListener.onItemClick(channel) }
+            }
+        }
+    }
+
+    class ChatDoctorViewHolder internal constructor(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private val textUserName = itemView.findViewById(R.id.text_user_name) as TextView
+        private val textLastMessageTime = itemView.findViewById(R.id.text_last_message_time) as TextView
+        private val textLastMessage = itemView.findViewById(R.id.text_last_message) as TextView
+
+        fun bind(channel: GroupChannel, clickListener: OnItemClickListener?) {
+            textUserName.text = channel.members.joinToString(", ") { it.nickname }
+            textLastMessageTime.text = DateTimeHelper.getEditingDay(channel.lastMessage.createdAt)
+            textLastMessage.text = (channel.lastMessage as? UserMessage)?.message ?: ""
+
+            if (clickListener != null) {
+                itemView.setOnClickListener { clickListener.onItemClick(channel) }
             }
         }
     }
@@ -161,7 +98,9 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             ViewType.LOADING -> LoadingViewHolder.createNew(parent)
-            ViewType.ITEM -> ChatViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group_chat, parent, false))
+            ViewType.ITEM_MY -> ChatMyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group_chat_my, parent, false))
+            ViewType.ITEM_OTHER -> ChatOtherViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group_chat_other, parent, false))
+            ViewType.ITEM_DOCTOR -> ChatDoctorViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group_chat_doctor, parent, false))
             else -> throw InvalidParameterException()
         }
     }
@@ -175,9 +114,9 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
                     holder.showMessage("no chat")
                 }
             }
-            is ChatViewHolder -> {
-                holder.bind(chatList!![position], mItemClickListener, mItemLongClickListener)
-            }
+            is ChatMyViewHolder -> holder.bind(chatList!![position], mItemClickListener)
+            is ChatOtherViewHolder -> holder.bind(chatList!![position], mItemClickListener)
+            is ChatDoctorViewHolder -> holder.bind(chatList!![position], mItemClickListener)
         }
     }
 }

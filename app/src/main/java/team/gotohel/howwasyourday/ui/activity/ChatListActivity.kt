@@ -25,12 +25,6 @@ class ChatListActivity: AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
-        mItemLongClickListener = object : ChatListAdapter.OnItemLongClickListener {
-            override fun onItemLongClick(channel: GroupChannel) {
-                toastDebug("long clicked!! ${channel.name}")
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

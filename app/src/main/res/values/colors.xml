@@ -6,4 +6,8 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+
+    <color name="blue">#5092e8</color>
+    <color name="orange">#ff8973</color>
+    <color name="orange_light">#ea9797</color>
 </resources>
