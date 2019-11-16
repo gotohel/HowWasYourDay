@@ -1,4 +1,4 @@
-package team.gotohel.howwasyourday.ui
+package team.gotohel.howwasyourday.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sendbird.android.SendBird
 import kotlinx.android.synthetic.main.activity_login.*
 import team.gotohel.howwasyourday.*
-import team.gotohel.howwasyourday.ui.activity.MainActivity
 
 
 class LoginActivity: AppCompatActivity() {
@@ -58,13 +57,14 @@ class LoginActivity: AppCompatActivity() {
 
     fun doLogin(view: View) {
 
+        startChat()
     }
 
     fun doSignUp(view: View) {
 
     }
 
-    fun startChat(view: View) {
+    fun startChat() {
         val inputId = edit_email.text.toString().trim()
         val inputName = edit_password.text.toString().trim()
 

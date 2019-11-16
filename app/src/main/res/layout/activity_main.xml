@@ -9,48 +9,180 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".ui.activity.MainActivity">
 
-        <team.gotohel.howwasyourday.ui.view.LinedEditText
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="266dp"
+            android:background="@drawable/bg_blue_gradation">
+
+            <ImageView
+                android:layout_width="119dp"
+                android:layout_height="146dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="bottom|end"
+                app:srcCompat="@drawable/sitting_person_copy"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_gravity="end"
+                    app:srcCompat="@drawable/ic_menu_white_24dp"
+                    android:background="?selectableItemBackgroundBorderless"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="18dp"
+                    android:textSize="25dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/koho_semibold"
+                    android:text="Hi, Dora!"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="18dp"
+                    android:layout_marginTop="6dp"
+                    android:textSize="20dp"
+                    android:textColor="@color/white"
+                    android:text="How was your day?"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="14dp"
+                    android:textColor="@color/white"
+                    android:text="Nov 15, 2019"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="30dp"
-            android:gravity="top"
-            android:background="@null"/>
+            android:orientation="vertical"
+            android:layout_marginTop="242dp"
+            android:background="@drawable/bg_main_input">
 
-        <Button
-            android:onClick="logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="logout"/>
+            <team.gotohel.howwasyourday.ui.view.LinedEditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="18dp"
+                android:paddingHorizontal="24dp"
+                android:lineSpacingExtra="15dp"
+                android:background="@null"
+                android:textSize="13dp"
+                android:gravity="top"
+                android:hint="Enter your story here..."/>
 
-        <Button
-            android:layout_gravity="bottom|end"
-            android:onClick="showChatList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="show chat list"/>
+            <Button
+                android:id="@+id/btn_save"
+                android:onClick="showBottomSheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:padding="12dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:fontFamily="@font/koho_bold"
+                android:text="SAVE AND PUBLISH"/>
+
+        </LinearLayout>
+
+        <View
+            android:onClick="hideBottomSheet"
+            android:visibility="gone"
+            android:alpha="0"
+            android:id="@+id/bg_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#8F000000"/>
 
     </FrameLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#0f0"
         android:orientation="vertical"
-        android:padding="16dp"
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="aaa"/>
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="78dp"
+            app:srcCompat="@drawable/ic_standing"/>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:paddingVertical="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_main_input">
+
+            <LinearLayout
+                android:onClick="justSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="24dp"
+                android:orientation="vertical"
+                android:background="?selectableItemBackgroundBorderless">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/koho_bold"
+                    android:text="Save"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save story for private."/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:onClick="saveAndPublish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:paddingHorizontal="24dp"
+                android:orientation="vertical"
+                android:background="?selectableItemBackgroundBorderless">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/koho_bold"
+                    android:text="@string/save_and_publish"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Share story and share anonymously with others."/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

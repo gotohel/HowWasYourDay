@@ -11,4 +11,6 @@
     <string name="days_ago">" days ago"</string>
     <string name="yesterday">yesterday</string>
 
+    <string name="save_and_publish"><![CDATA[Save&Publish]]></string>
+
 </resources>
