@@ -1,6 +1,8 @@
 package team.gotohel.howwasyourday.ui.adapter
 
 import android.content.Context
+import android.text.SpannableString
+import android.text.style.TypefaceSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +49,7 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    class ChatMyViewHolder internal constructor(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ChatMyViewHolder internal constructor(val context: Context, itemView: View): RecyclerView.ViewHolder(itemView) {
         private val textUserName = itemView.findViewById(R.id.text_user_name) as TextView
         private val textLastMessageTime = itemView.findViewById(R.id.text_last_message_time) as TextView
         private val textLastMessage = itemView.findViewById(R.id.text_last_message) as TextView
@@ -56,6 +58,12 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
             textUserName.text = channel.members.joinToString(", ") { it.nickname }
             textLastMessageTime.text = DateTimeHelper.getEditingDay(channel.lastMessage.createdAt)
             textLastMessage.text = (channel.lastMessage as? UserMessage)?.message ?: ""
+
+            if (channel.unreadMessageCount > 0) {
+                textLastMessage.typeface = context.resources.getFont(R.font.koho_bold)
+            } else {
+                textLastMessage.typeface = context.resources.getFont(R.font.koho_regular)
+            }
 
             if (clickListener != null) {
                 itemView.setOnClickListener { clickListener.onItemClick(channel) }
@@ -63,7 +71,7 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    class ChatOtherViewHolder internal constructor(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ChatOtherViewHolder internal constructor(val context: Context, itemView: View): RecyclerView.ViewHolder(itemView) {
         private val textUserName = itemView.findViewById(R.id.text_user_name) as TextView
         private val textLastMessageTime = itemView.findViewById(R.id.text_last_message_time) as TextView
         private val textLastMessage = itemView.findViewById(R.id.text_last_message) as TextView
@@ -72,6 +80,12 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
             textUserName.text = channel.members.joinToString(", ") { it.nickname }
             textLastMessageTime.text = DateTimeHelper.getEditingDay(channel.lastMessage.createdAt)
             textLastMessage.text = (channel.lastMessage as? UserMessage)?.message ?: ""
+
+            if (channel.unreadMessageCount > 0) {
+                textLastMessage.typeface = context.resources.getFont(R.font.koho_bold)
+            } else {
+                textLastMessage.typeface = context.resources.getFont(R.font.koho_regular)
+            }
 
             if (clickListener != null) {
                 itemView.setOnClickListener { clickListener.onItemClick(channel) }
@@ -79,7 +93,7 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    class ChatDoctorViewHolder internal constructor(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ChatDoctorViewHolder internal constructor(val context: Context, itemView: View): RecyclerView.ViewHolder(itemView) {
         private val textUserName = itemView.findViewById(R.id.text_user_name) as TextView
         private val textLastMessageTime = itemView.findViewById(R.id.text_last_message_time) as TextView
         private val textLastMessage = itemView.findViewById(R.id.text_last_message) as TextView
@@ -88,6 +102,12 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
             textUserName.text = channel.members.joinToString(", ") { it.nickname }
             textLastMessageTime.text = DateTimeHelper.getEditingDay(channel.lastMessage.createdAt)
             textLastMessage.text = (channel.lastMessage as? UserMessage)?.message ?: ""
+
+            if (channel.unreadMessageCount > 0) {
+                textLastMessage.typeface = context.resources.getFont(R.font.koho_bold)
+            } else {
+                textLastMessage.typeface = context.resources.getFont(R.font.koho_regular)
+            }
 
             if (clickListener != null) {
                 itemView.setOnClickListener { clickListener.onItemClick(channel) }
@@ -98,9 +118,9 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             ViewType.LOADING -> LoadingViewHolder.createNew(parent)
-            ViewType.ITEM_MY -> ChatMyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group_chat_my, parent, false))
-            ViewType.ITEM_OTHER -> ChatOtherViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group_chat_other, parent, false))
-            ViewType.ITEM_DOCTOR -> ChatDoctorViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_group_chat_doctor, parent, false))
+            ViewType.ITEM_MY -> ChatMyViewHolder(context, LayoutInflater.from(parent.context).inflate(R.layout.item_group_chat_my, parent, false))
+            ViewType.ITEM_OTHER -> ChatOtherViewHolder(context, LayoutInflater.from(parent.context).inflate(R.layout.item_group_chat_other, parent, false))
+            ViewType.ITEM_DOCTOR -> ChatDoctorViewHolder(context, LayoutInflater.from(parent.context).inflate(R.layout.item_group_chat_doctor, parent, false))
             else -> throw InvalidParameterException()
         }
     }

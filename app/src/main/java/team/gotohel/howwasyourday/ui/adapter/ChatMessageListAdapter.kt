@@ -285,38 +285,12 @@ class ChatMessageListAdapter(private val mContext: Context): RecyclerView.Adapte
 
     private inner class MyUserMessageHolder internal constructor(itemView: View): RecyclerView.ViewHolder(itemView) {
         internal var messageText: TextView = itemView.findViewById(R.id.text_group_chat_message) as TextView
-        internal var editedText: TextView = itemView.findViewById(R.id.text_group_chat_edited) as TextView
         internal var timeText: TextView = itemView.findViewById(R.id.text_group_chat_time) as TextView
-        internal var readReceiptText: TextView = itemView.findViewById(R.id.text_group_chat_read_receipt) as TextView
         internal var dateText: TextView = itemView.findViewById(R.id.text_group_chat_date) as TextView
-        internal var padding: View = itemView.findViewById(R.id.view_group_chat_padding)
 
         internal fun bind(message: UserMessage, channel: GroupChannel?, isContinuous: Boolean, isNewDay: Boolean) {
             messageText.text = message.message
             timeText.text = DateTimeHelper.formatTime(message.createdAt)
-
-            if (message.updatedAt > 0) {
-                editedText.visibility = View.VISIBLE
-            } else {
-                editedText.visibility = View.GONE
-            }
-
-            // Since setChannel is set slightly after adapter is created
-            if (channel != null) {
-                val readReceipt = channel.getReadReceipt(message)
-                if (readReceipt > 0) {
-                    readReceiptText.visibility = View.VISIBLE
-                    readReceiptText.text = readReceipt.toString()
-                } else {
-                    readReceiptText.visibility = View.INVISIBLE
-                }
-            }
-            // If continuous from previous message, remove extra padding.
-            if (isContinuous) {
-                padding.visibility = View.GONE
-            } else {
-                padding.visibility = View.VISIBLE
-            }
 
             // If the message is sent on a different date than the previous one, display the date.
             if (isNewDay) {
@@ -330,25 +304,10 @@ class ChatMessageListAdapter(private val mContext: Context): RecyclerView.Adapte
 
     private inner class OtherUserMessageHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var messageText: TextView = itemView.findViewById(R.id.text_group_chat_message) as TextView
-        internal var editedText: TextView = itemView.findViewById(R.id.text_group_chat_edited) as TextView
-        internal var nicknameText: TextView = itemView.findViewById(R.id.text_group_chat_nickname) as TextView
         internal var timeText: TextView = itemView.findViewById(R.id.text_group_chat_time) as TextView
-        internal var readReceiptText: TextView = itemView.findViewById(R.id.text_group_chat_read_receipt) as TextView
         internal var dateText: TextView = itemView.findViewById(R.id.text_group_chat_date) as TextView
-        internal var profileImage: ImageView = itemView.findViewById(R.id.image_group_chat_profile) as ImageView
 
         internal fun bind(message: UserMessage, channel: GroupChannel?, isNewDay: Boolean, isContinuous: Boolean) {
-
-            // Since setChannel is set slightly after adapter is created
-            if (channel != null) {
-                val readReceipt = channel.getReadReceipt(message)
-                if (readReceipt > 0) {
-                    readReceiptText.visibility = View.VISIBLE
-                    readReceiptText.text = readReceipt.toString()
-                } else {
-                    readReceiptText.visibility = View.INVISIBLE
-                }
-            }
 
             // Show the date if the message was sent on a different date than the previous message.
             if (isNewDay) {
@@ -358,25 +317,8 @@ class ChatMessageListAdapter(private val mContext: Context): RecyclerView.Adapte
                 dateText.visibility = View.GONE
             }
 
-            // Hide profile image and nickname if the previous message was also sent by current sender.
-            if (isContinuous) {
-                profileImage.visibility = View.INVISIBLE
-                nicknameText.visibility = View.GONE
-            } else {
-                profileImage.visibility = View.VISIBLE
-
-                nicknameText.visibility = View.VISIBLE
-                nicknameText.text = message.sender.nickname
-            }
-
             messageText.text = message.message
             timeText.text = DateTimeHelper.formatTime(message.createdAt)
-
-            if (message.updatedAt > 0) {
-                editedText.visibility = View.VISIBLE
-            } else {
-                editedText.visibility = View.GONE
-            }
         }
     }
 }
