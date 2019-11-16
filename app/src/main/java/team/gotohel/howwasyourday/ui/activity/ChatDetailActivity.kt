@@ -76,6 +76,8 @@ class ChatDetailActivity: AppCompatActivity() {
                             chatMessageListAdapter.markAllMessagesAsRead()
                         }
                     )
+
+                    updateActionBarTitle()
                 })
         } else {
             mChannel!!.refresh(GroupChannel.GroupChannelRefreshHandler { e ->
@@ -91,7 +93,19 @@ class ChatDetailActivity: AppCompatActivity() {
                         chatMessageListAdapter.markAllMessagesAsRead()
                     }
                 )
+
+                updateActionBarTitle()
             })
+        }
+    }
+
+    private fun updateActionBarTitle() {
+        if (mChannel != null && mChannel!!.memberCount >= 2) {
+            text_chat_title.text = mChannel!!.members.joinToString(" & ") { it.nickname }
+            text_chat_description.text = ("${mChannel!!.members[0].nickname} need\nyour support")
+        } else {
+            text_chat_title.text = "Chat"
+            text_chat_description.text = ""
         }
     }
 
@@ -160,5 +174,9 @@ class ChatDetailActivity: AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun backToChatList(view: View) {
+        finish()
     }
 }
