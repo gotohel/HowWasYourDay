@@ -4,15 +4,33 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.activity_main.*
 import team.gotohel.howwasyourday.MyPreference
 import team.gotohel.howwasyourday.R
 import team.gotohel.howwasyourday.ui.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
+
+        // callback for do something
+        sheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(view: View, newState: Int) {
+
+            }
+
+            override fun onSlide(view: View, v: Float) {
+
+            }
+        })
     }
 
     fun logout(view: View) {
@@ -29,5 +47,14 @@ class MainActivity : AppCompatActivity() {
     fun showChatList(view: View) {
         startActivity(Intent(this, ChatListActivity::class.java))
 
+    }
+
+
+    fun showHideBottomSheet() {
+        if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+        } else {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+        }
     }
 }

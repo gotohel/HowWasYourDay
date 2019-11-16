@@ -69,7 +69,7 @@ class ChatMessageListAdapter(private val mContext: Context): RecyclerView.Adapte
                 message as UserMessage,
                 mChannel,
                 isContinuous,
-                isNewDay,
+                isNewDay
             )
             is OtherUserMessageHolder -> holder.bind(
                 message as UserMessage,

@@ -1,31 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.activity.MainActivity">
+    android:layout_height="match_parent">
 
-    <team.gotohel.howwasyourday.ui.view.LinedEditText
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="30dp"
-        android:gravity="top"
-        android:background="@null"/>
+        android:orientation="vertical"
+        tools:context=".ui.activity.MainActivity">
 
-    <Button
-        android:onClick="logout"
-        android:layout_width="wrap_content"
+        <team.gotohel.howwasyourday.ui.view.LinedEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="30dp"
+            android:gravity="top"
+            android:background="@null"/>
+
+        <Button
+            android:onClick="logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="logout"/>
+
+        <Button
+            android:layout_gravity="bottom|end"
+            android:onClick="showChatList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show chat list"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="logout"/>
+        android:background="#0f0"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <Button
-        android:layout_gravity="bottom|end"
-        android:onClick="showChatList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="show chat list"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="aaa"/>
 
-</FrameLayout>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

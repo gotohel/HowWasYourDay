@@ -2,10 +2,9 @@ package team.gotohel.howwasyourday.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.sendbird.android.SendBird
 import kotlinx.android.synthetic.main.activity_login.*
 import team.gotohel.howwasyourday.*
@@ -14,32 +13,60 @@ import team.gotohel.howwasyourday.ui.activity.MainActivity
 
 class LoginActivity: AppCompatActivity() {
 
-    private lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
-
-        // callback for do something
-        sheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(view: View, newState: Int) {
-
-            }
-
-            override fun onSlide(view: View, v: Float) {
-
-            }
-        })
+        showLoginLayout()
 
         if (MyPreference.stayLogin && MyPreference.savedUserId != null && MyPreference.savedUserName != null) {
             connectToSendBird(MyPreference.savedUserId!!, MyPreference.savedUserName!!)
+        } else {
+            Handler().postDelayed({
+                view_splash.visibility = View.GONE
+            }, 1000)
         }
     }
 
+    fun showSignUpLayout(view: View? = null) {
+        edit_email.setText("")
+        edit_password.setText("")
+        edit_nickname.setText("")
+
+        edit_nickname.visibility = View.VISIBLE
+
+        btn_login.visibility = View.GONE
+        btn_sign_up.visibility = View.VISIBLE
+
+        btn_show_sign_up.visibility = View.GONE
+        btn_show_login.visibility = View.VISIBLE
+    }
+
+    fun showLoginLayout(view: View? = null) {
+        edit_email.setText("")
+        edit_password.setText("")
+        edit_nickname.setText("")
+
+        edit_nickname.visibility = View.GONE
+
+        btn_login.visibility = View.VISIBLE
+        btn_sign_up.visibility = View.GONE
+
+        btn_show_sign_up.visibility = View.VISIBLE
+        btn_show_login.visibility = View.GONE
+    }
+
+    fun doLogin(view: View) {
+
+    }
+
+    fun doSignUp(view: View) {
+
+    }
+
     fun startChat(view: View) {
-        val inputId = edit_send_bird_id.text.toString().trim()
-        val inputName = edit_send_bird_name.text.toString().trim()
+        val inputId = edit_email.text.toString().trim()
+        val inputName = edit_password.text.toString().trim()
 
         when {
             inputId.isEmpty() -> toast("id is empty")
@@ -52,19 +79,9 @@ class LoginActivity: AppCompatActivity() {
         }
     }
 
-    fun showHideBottomSheet() {
-        if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-        } else {
-            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-        }
-    }
-
     private fun connectToSendBird(userId: String, userNickname: String) {
         // Show the loading indicator
         val dialog = showProgressDialog("login")
-
-        btn_start_chat.isEnabled = false
 
         SendBird.connect(userId) { user, e ->
             // Callback received; hide the progress bar.
@@ -74,8 +91,6 @@ class LoginActivity: AppCompatActivity() {
                 // Error!
                 toast("Login to SendBird failed")
                 toastDebug("${e.code}: ${e.message}")
-
-                btn_start_chat.isEnabled = true
 
                 MyPreference.stayLogin = false
             } else {
