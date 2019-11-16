@@ -55,12 +55,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun showChatList(view: View) {
-        startActivity(Intent(this, ChatListActivity::class.java))
-
-    }
-
-
     fun showBottomSheet(view: View) {
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
@@ -81,10 +75,10 @@ class MainActivity : AppCompatActivity() {
             setOnMenuItemClickListener {
                 when (it.title) {
                     titleChatList -> {
-                        toast(titleChatList)
+                        startActivity(Intent(this@MainActivity, ChatListActivity::class.java))
                     }
                     titleHelp -> {
-                        toast(titleHelp.toString())
+                        startActivity(Intent(this@MainActivity, DoctorDetailActivity::class.java))
                     }
                 }
 
