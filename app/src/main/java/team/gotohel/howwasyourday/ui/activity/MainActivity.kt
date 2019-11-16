@@ -1,16 +1,21 @@
 package team.gotohel.howwasyourday.ui.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.TypefaceSpan
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_main.*
 import team.gotohel.howwasyourday.MyPreference
 import team.gotohel.howwasyourday.R
+import team.gotohel.howwasyourday.toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -64,12 +69,28 @@ class MainActivity : AppCompatActivity() {
         sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
-    fun showHideBottomSheet() {
-        if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-        } else {
-            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-        }
+    fun showSubMenu(view: View) {
+        val titleChatList = "Chat List"
+        val titleHelp = SpannableString("Help to doctor")
+        titleHelp.setSpan(ForegroundColorSpan(Color.parseColor("#E55555")), 0, titleHelp.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        titleHelp.setSpan(TypefaceSpan(resources.getFont(R.font.koho_bold)), 0, titleHelp.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        PopupMenu(this, view).apply {
+            menu.add(titleChatList)
+            menu.add(titleHelp)
+            setOnMenuItemClickListener {
+                when (it.title) {
+                    titleChatList -> {
+                        toast(titleChatList)
+                    }
+                    titleHelp -> {
+                        toast(titleHelp.toString())
+                    }
+                }
+
+                return@setOnMenuItemClickListener true
+            }
+        }.show()
     }
 
     fun justSave(view: View) {
