@@ -1,5 +1,6 @@
 package team.gotohel.howwasyourday.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +18,11 @@ class ChatListActivity: AppCompatActivity() {
     private val chatListAdapter = ChatListAdapter(this).apply {
         mItemClickListener = object : ChatListAdapter.OnItemClickListener {
             override fun onItemClick(channel: GroupChannel) {
-                toastDebug("Chat Clicked!! ${channel.name}")
+                val intent = Intent(this@ChatListActivity, ChatDetailActivity::class.java).apply {
+                    putExtra(ChatDetailActivity.KEY_CHAT_URL, channel.url)
+                }
+                
+                startActivity(intent)
             }
         }
 

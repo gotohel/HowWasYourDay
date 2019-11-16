@@ -267,4 +267,21 @@ object DateTimeHelper {
 
         return result
     }
+
+    fun hasSameDate(millisFirst: Long, millisSecond: Long): Boolean {
+        val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+        return dateFormat.format(millisFirst) == dateFormat.format(millisSecond)
+    }
+
+
+    fun formatDate(timeInMillis: Long): String {
+        val dateFormat = SimpleDateFormat("MMMM dd", Locale.getDefault())
+        return dateFormat.format(timeInMillis)
+    }
+
+    fun formatTime(timeInMillis: Long): String {
+        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        return dateFormat.format(timeInMillis)
+    }
+
 }
