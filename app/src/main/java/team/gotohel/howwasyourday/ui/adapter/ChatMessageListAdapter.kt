@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sendbird.android.*
@@ -28,17 +27,17 @@ class ChatMessageListAdapter(private val mContext: Context): RecyclerView.Adapte
         when (viewType) {
             VIEW_TYPE_USER_MESSAGE_ME -> {
                 val myUserMsgView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.list_item_group_chat_user_me, parent, false)
+                    .inflate(R.layout.item_chat_message_my, parent, false)
                 return MyUserMessageHolder(myUserMsgView)
             }
             VIEW_TYPE_USER_MESSAGE_OTHER -> {
                 val otherUserMsgView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.list_item_group_chat_user_other, parent, false)
+                    .inflate(R.layout.item_chat_message_other, parent, false)
                 return OtherUserMessageHolder(otherUserMsgView)
             }
             VIEW_TYPE_ADMIN_MESSAGE -> {
                 val adminMsgView = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.list_item_group_chat_admin, parent, false)
+                    .inflate(R.layout.item_chat_message_admin, parent, false)
                 return AdminMessageHolder(adminMsgView)
             }
 

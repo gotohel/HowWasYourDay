@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="12dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="12dp"
         android:textSize="11dp"
         android:textColor="#80000000"
         tools:text="1 hours ago"/>
