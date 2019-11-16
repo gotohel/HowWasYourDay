@@ -1,4 +1,4 @@
-package team.gotohel.howwasyourday.utils
+package team.gotohel.howwasyourday.util
 
 import android.content.Context
 import com.sendbird.android.SendBird

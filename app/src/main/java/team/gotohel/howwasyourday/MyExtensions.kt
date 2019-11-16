@@ -53,6 +53,7 @@ fun Activity.showProgressDialog(message: String): AlertDialog {
         .setView(R.layout.dialog_progress)
         .show()
         .apply {
+            setCancelable(false)
             setCanceledOnTouchOutside(false)
             text_loading_message?.text = message
         }

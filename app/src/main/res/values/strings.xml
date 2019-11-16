@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">HowWasYourDay</string>
+
+    <!-- 시간 관련 -->
+    <string name="unknown">unknown</string>
+    <string name="just_before">just before</string>
+    <string name="just_now">just now</string>
+    <string name="seconds_ago">" seconds ago"</string>
+    <string name="minutes_ago">" minutes ago"</string>
+    <string name="hours_ago">" hours ago"</string>
+    <string name="days_ago">" days ago"</string>
+    <string name="yesterday">yesterday</string>
+
 </resources>

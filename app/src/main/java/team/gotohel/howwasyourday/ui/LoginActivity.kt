@@ -1,4 +1,4 @@
-package team.gotohel.howwasyourday
+package team.gotohel.howwasyourday.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.sendbird.android.SendBird
 import kotlinx.android.synthetic.main.activity_login.*
+import team.gotohel.howwasyourday.*
+import team.gotohel.howwasyourday.ui.activity.MainActivity
 
 
 class LoginActivity: AppCompatActivity() {
