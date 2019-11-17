@@ -4,13 +4,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.sendbird.android.SendBird
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
 import team.gotohel.howwasyourday.*
+import team.gotohel.howwasyourday.api.MyApiClient
+import team.gotohel.howwasyourday.model.PostLogin
+import team.gotohel.howwasyourday.model.PostUserRegister
 
 
 class LoginActivity: AppCompatActivity() {
+
+    companion object {
+        const val KEY_SKIP_SPLASH = "KEY_SKIP_SPLASH"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,10 +28,15 @@ class LoginActivity: AppCompatActivity() {
 
         showLoginLayout()
 
-        if (MyPreference.stayLogin && MyPreference.savedUserId != null && MyPreference.savedUserName != null) {
-            connectToSendBird(MyPreference.savedUserId!!, MyPreference.savedUserName!!)
-        } else {
-            Handler().postDelayed({
+        edit_email.setText(MyPreference.savedUserEmail ?: "")
+        edit_password.setText(MyPreference.savedUserPassword ?: "")
+
+        val skipSplash = intent?.getBooleanExtra(KEY_SKIP_SPLASH, false) ?: false
+
+        when {
+            skipSplash -> view_splash.visibility = View.GONE
+            MyPreference.stayLogin -> startLogin()
+            else -> Handler().postDelayed({
                 view_splash.visibility = View.GONE
             }, 1000)
         }
@@ -55,55 +70,103 @@ class LoginActivity: AppCompatActivity() {
         btn_show_login.visibility = View.GONE
     }
 
-    fun doLogin(view: View) {
-
-        startChat()
+    private var loginDialog: AlertDialog? = null
+    private fun showProgress(message: String) {
+        if (view_splash.visibility != View.VISIBLE) {
+            loginDialog = showProgressDialog(message)
+        }
     }
 
-    fun doSignUp(view: View) {
 
-    }
-
-    fun startChat() {
-        val inputId = edit_email.text.toString().trim()
-        val inputName = edit_password.text.toString().trim()
+    fun startLogin(view: View? = null) {
+        val email = edit_email.text.toString().trim()
+        val password = edit_password.text.toString().trim()
 
         when {
-            inputId.isEmpty() -> toast("id is empty")
-            inputName.isEmpty() -> toast("mame is empty")
+            email.isEmpty() -> {
+                toast("email is empty")
+                view_splash.visibility = View.GONE
+            }
+            password.isEmpty() -> {
+                toast("password is empty")
+                view_splash.visibility = View.GONE
+            }
             else -> {
-                MyPreference.savedUserId = inputId
-                MyPreference.savedUserName = inputName
-                connectToSendBird(inputId, inputName)
+                showProgress("login...")
+                MyApiClient.getInstance().call.login(PostLogin(
+                    email = email,
+                    password = password
+                ))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { user, throwable ->
+                        if (user != null) {
+                            toast("success to login!")
+                            MyPreference.savedUserEmail = email
+                            MyPreference.savedUserPassword = password
+                            connectSendBirdAndStart(user.id)
+                        } else {
+                            toast("Can not found user")
+                            loginDialog?.dismiss()
+                            view_splash.visibility = View.GONE
+                            throwable?.printStackTrace()
+                        }
+
+                    }
             }
         }
     }
 
-    private fun connectToSendBird(userId: String, userNickname: String) {
-        // Show the loading indicator
-        val dialog = showProgressDialog("login")
+    fun startSignUp(view: View) {
+        val email = edit_email.text.toString().trim()
+        val password = edit_password.text.toString().trim()
+        val nickname = edit_nickname.text.toString().trim()
 
-        SendBird.connect(userId) { user, e ->
+        when {
+            email.isEmpty() -> toast("email is empty")
+            password.isEmpty() -> toast("password is empty")
+            nickname.isEmpty() -> toast("nickname is empty")
+            else -> {
+                showProgress("sign up...")
+                MyApiClient.getInstance().call.registerUser(PostUserRegister(
+                    email = email,
+                    password = password,
+                    nickname = nickname
+                ))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { user, throwable ->
+                        if (user != null) {
+                            toast("success to sign up")
+                            MyPreference.savedUserEmail = email
+                            MyPreference.savedUserPassword = password
+                            connectSendBirdAndStart(user.id)
+                        } else {
+                            toast("sign up failed..")
+                            loginDialog?.dismiss()
+                            view_splash.visibility = View.GONE
+                            throwable?.printStackTrace()
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun connectSendBirdAndStart(userId: Int) {
+        // Show the loading indicator
+
+        SendBird.connect(userId.toString()) { user, e ->
             // Callback received; hide the progress bar.
-            dialog.dismiss()
 
             if (e != null) {
-                // Error!
+                loginDialog?.dismiss()
                 toast("Login to SendBird failed")
-                toastDebug("${e.code}: ${e.message}")
+                e.printStackTrace()
 
                 MyPreference.stayLogin = false
+                view_splash.visibility = View.GONE
             } else {
                 MyPreference.stayLogin = true
-
-                // Update the user's nickname
-                SendBird.updateCurrentUserInfo(userNickname, null) { e ->
-                        if (e != null) {
-                            // Error!
-                            toast("Update user nickname failed")
-                            toastDebug("${e.code}: ${e.message}")
-                        }
-                }
 
                 // Proceed to MainActivity
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)

@@ -28,6 +28,10 @@ class MyApiClient {
     companion object {
         private val BASE_URL_API_SERVER_DEFAULT = "http://env-test.cqemmcnhtr.us-west-2.elasticbeanstalk.com/"
 
+        private const val READ_TIMEOUT_SECONDS = 20
+        private const val WRITE_TIMEOUT_SECONDS = 10
+        private const val CONNECTION_TIMEOUT_SECONDS = 30
+
         private var apiClient: MyApiClient? = null
         fun getInstance(): MyApiClient {
             if (apiClient == null) {
@@ -76,6 +80,11 @@ class MyApiClient {
         }
 
         okHttpClient.addInterceptor(logging)
+
+        okHttpClient
+            .readTimeout(READ_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
+            .connectTimeout(CONNECTION_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT_SECONDS.toLong(), TimeUnit.SECONDS)
 
         //set normal rest adapter
         retrofit = Retrofit.Builder()

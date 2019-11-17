@@ -10,18 +10,18 @@ object MyPreference  {
     /**
      * Login Preference
      */
-    private const val KEY_SAVED_USER_ID = "KEY_SAVED_USER_ID"
-    var savedUserId: String?
-        get() = getAppPreference().getString(KEY_SAVED_USER_ID, null)
+    private const val KEY_SAVED_USER_EMAIL = "KEY_SAVED_USER_EMAIL"
+    var savedUserEmail: String?
+        get() = getAppPreference().getString(KEY_SAVED_USER_EMAIL, null)
         set(value) = getAppPreference().edit()
-            .putString(KEY_SAVED_USER_ID, value)
+            .putString(KEY_SAVED_USER_EMAIL, value)
             .apply()
 
-    private const val KEY_SAVED_USER_NAME = "KEY_SAVED_USER_NAME"
-    var savedUserName: String?
-        get() = getAppPreference().getString(KEY_SAVED_USER_NAME, null)
+    private const val KEY_SAVED_USER_PASSWORD = "KEY_SAVED_USER_PASSWORD"
+    var savedUserPassword: String?
+        get() = getAppPreference().getString(KEY_SAVED_USER_PASSWORD, null)
         set(value) = getAppPreference().edit()
-            .putString(KEY_SAVED_USER_NAME, value)
+            .putString(KEY_SAVED_USER_PASSWORD, value)
             .apply()
 
     private const val KEY_STAY_LOGIN = "KEY_STAY_LOGIN"

@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_pulse_background"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -69,7 +75,7 @@
             android:layout_marginHorizontal="34dp"
             android:fontFamily="@font/koho_extralight"
             android:singleLine="true"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:hint="Password"/>
 
         <EditText
@@ -93,7 +99,7 @@
 
             <Button
                 android:id="@+id/btn_sign_up"
-                android:onClick="doSignUp"
+                android:onClick="startSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
@@ -103,7 +109,7 @@
 
             <Button
                 android:id="@+id/btn_login"
-                android:onClick="doLogin"
+                android:onClick="startLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
@@ -177,8 +183,6 @@
                 android:textSize="20dp"
                 android:fontFamily="@font/koho_extralight"
                 android:text="Your\nmentalcare friends"/>
-
-
 
             <TextView
                 android:layout_width="match_parent"

@@ -2,8 +2,6 @@ package team.gotohel.howwasyourday.util
 
 import android.content.Context
 import com.sendbird.android.SendBird
-import com.sendbird.android.SendBirdException
-import com.sendbird.android.User
 import team.gotohel.howwasyourday.MyPreference
 
 
@@ -46,7 +44,7 @@ object SendBirdUtils {
                 handler!!.onConnected(false)
             }
         } else if (SendBird.getConnectionState() == SendBird.ConnectionState.CLOSED) { // push notification or system kill
-            val userId = MyPreference.savedUserId
+            val userId = MyPreference.savedUserEmail
             SendBird.connect(userId, SendBird.ConnectHandler { user, e ->
                 if (e != null) {
                     return@ConnectHandler

@@ -15,7 +15,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_main.*
 import team.gotohel.howwasyourday.MyPreference
 import team.gotohel.howwasyourday.R
-import team.gotohel.howwasyourday.toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,14 +43,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun logout(view: View) {
-        MyPreference.savedUserId = null
-        MyPreference.savedUserName = null
+    fun logout() {
         MyPreference.stayLogin = false
 
         val intent = Intent(this, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra(LoginActivity.KEY_SKIP_SPLASH, true)
         startActivity(intent)
     }
 
@@ -68,10 +66,12 @@ class MainActivity : AppCompatActivity() {
         val titleHelp = SpannableString("Help to doctor")
         titleHelp.setSpan(ForegroundColorSpan(Color.parseColor("#E55555")), 0, titleHelp.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         titleHelp.setSpan(TypefaceSpan(resources.getFont(R.font.koho_bold)), 0, titleHelp.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val titleLogout = "Logout"
 
         PopupMenu(this, view).apply {
             menu.add(titleChatList)
             menu.add(titleHelp)
+            menu.add(titleLogout)
             setOnMenuItemClickListener {
                 when (it.title) {
                     titleChatList -> {
@@ -79,6 +79,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     titleHelp -> {
                         startActivity(Intent(this@MainActivity, DoctorDetailActivity::class.java))
+                    }
+                    titleLogout -> {
+                        logout()
                     }
                 }
 
