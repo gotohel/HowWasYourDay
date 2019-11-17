@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sendbird.android.*
+import team.gotohel.howwasyourday.*
 import team.gotohel.howwasyourday.R
 import team.gotohel.howwasyourday.util.DateTimeHelper
 import java.security.InvalidParameterException
@@ -42,8 +43,13 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (chatList != null) {
-            (position % 3) + 1 // FIXME
+        return if (position < chatList?.size ?: 0) {
+            val chat = chatList!![position]
+            when {
+                chat.isFromDoctor() -> ViewType.ITEM_DOCTOR
+                chat.getFromUserId() == MyPreference.savedUserId -> ViewType.ITEM_MY
+                else -> ViewType.ITEM_OTHER
+            }
         } else {
             ViewType.LOADING
         }
@@ -55,7 +61,7 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
         private val textLastMessage = itemView.findViewById(R.id.text_last_message) as TextView
 
         fun bind(channel: GroupChannel, clickListener: OnItemClickListener?) {
-            textUserName.text = channel.members.joinToString(", ") { it.nickname }
+            textUserName.text = channel.getOtherUserName() ?: "??"
             textLastMessageTime.text = DateTimeHelper.getEditingDay(channel.lastMessage.createdAt)
             textLastMessage.text = (channel.lastMessage as? UserMessage)?.message ?: ""
 
@@ -77,7 +83,7 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
         private val textLastMessage = itemView.findViewById(R.id.text_last_message) as TextView
 
         fun bind(channel: GroupChannel, clickListener: OnItemClickListener?) {
-            textUserName.text = channel.members.joinToString(", ") { it.nickname }
+            textUserName.text = channel.getOtherUserName() ?: "??"
             textLastMessageTime.text = DateTimeHelper.getEditingDay(channel.lastMessage.createdAt)
             textLastMessage.text = (channel.lastMessage as? UserMessage)?.message ?: ""
 
@@ -99,7 +105,7 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
         private val textLastMessage = itemView.findViewById(R.id.text_last_message) as TextView
 
         fun bind(channel: GroupChannel, clickListener: OnItemClickListener?) {
-            textUserName.text = channel.members.joinToString(", ") { it.nickname }
+            textUserName.text = channel.getOtherUserName() ?: "??"
             textLastMessageTime.text = DateTimeHelper.getEditingDay(channel.lastMessage.createdAt)
             textLastMessage.text = (channel.lastMessage as? UserMessage)?.message ?: ""
 

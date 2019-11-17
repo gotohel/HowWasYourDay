@@ -1,8 +1,10 @@
 package team.gotohel.howwasyourday.ui.activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
@@ -17,14 +19,12 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
-import team.gotohel.howwasyourday.MyPreference
-import team.gotohel.howwasyourday.R
+import team.gotohel.howwasyourday.*
 import team.gotohel.howwasyourday.api.MyApiClient
 import team.gotohel.howwasyourday.model.DailyLogSimple
 import team.gotohel.howwasyourday.model.PostDailyLog
-import team.gotohel.howwasyourday.showProgressDialog
-import team.gotohel.howwasyourday.toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,15 +54,22 @@ class MainActivity : AppCompatActivity() {
 
         edit_daily_log.addTextChangedListener {
             if (it.isNullOrBlank()) {
-                btn_save.visibility = View.INVISIBLE
+                bottom_buttons.visibility = View.INVISIBLE
             } else {
-                btn_save.visibility = View.VISIBLE
+                bottom_buttons.visibility = View.VISIBLE
             }
         }
     }
 
     fun showBottomSheet(view: View) {
-        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        hideKeyboard()
+        Handler().postDelayed({
+            sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }, 500)
+    }
+
+    fun editBottomSheet(view: View) {
+        toast("edit")
     }
 
     fun hideBottomSheet(view: View? = null) {
@@ -128,12 +135,16 @@ class MainActivity : AppCompatActivity() {
                     postDialog?.dismiss()
 
                     if (response != null) {
-                        edit_daily_log.setText("")
                         toast("success to post!!!")
-                        apiCall.shareDailyLog(DailyLogSimple(response.daily_log.id))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe()
+                        btn_edit.visibility = View.VISIBLE
+                        btn_save.visibility = View.INVISIBLE
+
+                        if (isSharable) {
+                            apiCall.shareDailyLog(DailyLogSimple(response.daily_log.id))
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe()
+                        }
 
                         apiCall.analyzeDailyLog(DailyLogSimple(response.daily_log.id))
                             .subscribeOn(Schedulers.io())

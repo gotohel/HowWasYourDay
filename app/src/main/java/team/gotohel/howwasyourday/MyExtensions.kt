@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.sendbird.android.GroupChannel
 import kotlinx.android.synthetic.main.dialog_progress.*
 
 
@@ -57,4 +58,24 @@ fun Activity.showProgressDialog(message: String): AlertDialog {
             setCanceledOnTouchOutside(false)
             text_loading_message?.text = message
         }
+}
+
+fun GroupChannel.isFromDoctor(): Boolean {
+    return name.split("-").getOrNull(0) == "doctor"
+}
+
+fun GroupChannel.getFromUserId(): Int? {
+    return name.split("-").getOrNull(1)?.toIntOrNull()
+}
+
+fun GroupChannel.getToUserId(): Int? {
+    return name.split("-").getOrNull(2)?.toIntOrNull()
+}
+
+fun GroupChannel.getOtherUserName(): String? {
+    return if (memberCount == 2 && members.map { it.userId }.contains(MyPreference.savedUserId.toString())) {
+        members.firstOrNull { it.userId != MyPreference.savedUserId.toString() }?.nickname
+    } else {
+        null
+    }
 }

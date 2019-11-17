@@ -93,18 +93,43 @@
                 android:gravity="top"
                 android:hint="Enter your story here..."/>
 
-            <Button
+            <LinearLayout
                 tools:visibility="visible"
                 android:visibility="invisible"
-                android:id="@+id/btn_save"
-                android:onClick="showBottomSheet"
-                android:layout_width="wrap_content"
+                android:id="@+id/bottom_buttons"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:padding="12dp"
-                android:background="?selectableItemBackgroundBorderless"
-                android:fontFamily="@font/koho_bold"
-                android:text="SAVE AND PUBLISH"/>
+                android:orientation="horizontal">
+
+                <Button
+                    tools:visibility="visible"
+                    android:visibility="invisible"
+                    android:id="@+id/btn_edit"
+                    android:onClick="editBottomSheet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:fontFamily="@font/koho_bold"
+                    android:text="EDIT"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+
+                <Button
+                    android:visibility="visible"
+                    android:id="@+id/btn_save"
+                    android:onClick="showBottomSheet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:fontFamily="@font/koho_bold"
+                    android:text="SAVE AND PUBLISH"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
