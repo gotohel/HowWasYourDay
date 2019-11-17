@@ -10,6 +10,13 @@ object MyPreference  {
     /**
      * Login Preference
      */
+    private const val KEY_SAVED_USER_ID = "KEY_SAVED_USER_ID"
+    var savedUserId: Int
+        get() = getAppPreference().getInt(KEY_SAVED_USER_ID, -1)
+        set(value) = getAppPreference().edit()
+            .putInt(KEY_SAVED_USER_ID, value)
+            .apply()
+
     private const val KEY_SAVED_USER_EMAIL = "KEY_SAVED_USER_EMAIL"
     var savedUserEmail: String?
         get() = getAppPreference().getString(KEY_SAVED_USER_EMAIL, null)

@@ -1,6 +1,7 @@
 package team.gotohel.howwasyourday.api
 
 import android.util.Log
+import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -53,6 +54,12 @@ class MyApiClient {
 
         @POST("dailylog/upload")
         fun uploadDailyLog(@Body postDailyLog: PostDailyLog): Single<ResDailyLog>
+
+        @POST("dailylog/share")
+        fun shareDailyLog(@Body dailyLogSimple: DailyLogSimple): Completable
+
+        @POST("dailylog/analyze")
+        fun analyzeDailyLog(@Body dailyLogSimple: DailyLogSimple): Completable
 
         @GET("dailylog")
         fun getDailyLogs(

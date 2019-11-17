@@ -94,6 +94,7 @@ class LoginActivity: AppCompatActivity() {
                     .subscribe { user, throwable ->
                         if (user != null) {
                             toast("success to login!")
+                            MyPreference.savedUserId = user.id
                             MyPreference.savedUserEmail = email
                             MyPreference.savedUserPassword = password
                             connectSendBirdAndStart(user.id)
@@ -130,6 +131,7 @@ class LoginActivity: AppCompatActivity() {
                     .subscribe { user, throwable ->
                         if (user != null) {
                             toast("success to sign up")
+                            MyPreference.savedUserId = user.id
                             MyPreference.savedUserEmail = email
                             MyPreference.savedUserPassword = password
                             connectSendBirdAndStart(user.id)
