@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity() {
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe()
-                        }, 1000)
+                        }, 500)
 
                     } else {
                         toast("save failed... ")
