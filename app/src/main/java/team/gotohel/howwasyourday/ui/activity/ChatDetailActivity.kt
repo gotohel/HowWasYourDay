@@ -25,7 +25,7 @@ class ChatDetailActivity: AppCompatActivity() {
     }
 
     private lateinit var mLayoutManager: LinearLayoutManager
-    private val chatMessageListAdapter =  ChatMessageListAdapter(this)
+    private val chatMessageListAdapter =  ChatMessageListAdapter(this, false)
 
     private var mChannel: GroupChannel? = null
     private lateinit var targetChatUrl: String

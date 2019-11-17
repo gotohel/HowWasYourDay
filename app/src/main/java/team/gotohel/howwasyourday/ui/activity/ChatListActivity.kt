@@ -16,6 +16,7 @@ import com.sendbird.android.GroupChannel
 import com.sendbird.android.GroupChannelListQuery
 import kotlinx.android.synthetic.main.activity_chat_list.*
 import team.gotohel.howwasyourday.R
+import team.gotohel.howwasyourday.isFromDoctor
 import team.gotohel.howwasyourday.toastDebug
 import team.gotohel.howwasyourday.ui.adapter.ChatListAdapter
 
@@ -25,11 +26,19 @@ class ChatListActivity: AppCompatActivity() {
     private val chatListAdapter = ChatListAdapter(this).apply {
         mItemClickListener = object : ChatListAdapter.OnItemClickListener {
             override fun onItemClick(channel: GroupChannel) {
-                val intent = Intent(this@ChatListActivity, ChatDetailActivity::class.java).apply {
-                    putExtra(ChatDetailActivity.KEY_CHAT_URL, channel.url)
+                if (channel.isFromDoctor()) {
+                    startActivity(
+                        Intent(this@ChatListActivity, DoctorDetailActivity::class.java).apply {
+                            putExtra(DoctorDetailActivity.KEY_CHAT_URL, channel.url)
+                        }
+                    )
+                } else {
+                    startActivity(
+                        Intent(this@ChatListActivity, ChatDetailActivity::class.java).apply {
+                            putExtra(ChatDetailActivity.KEY_CHAT_URL, channel.url)
+                        }
+                    )
                 }
-                
-                startActivity(intent)
             }
         }
     }

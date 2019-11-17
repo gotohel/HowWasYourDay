@@ -10,7 +10,7 @@ import com.sendbird.android.*
 import team.gotohel.howwasyourday.R
 import team.gotohel.howwasyourday.util.DateTimeHelper
 
-class ChatMessageListAdapter(private val mContext: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatMessageListAdapter(private val mContext: Context, private val isDoctorChat: Boolean): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val VIEW_TYPE_USER_MESSAGE_ME = 10
@@ -286,6 +286,14 @@ class ChatMessageListAdapter(private val mContext: Context): RecyclerView.Adapte
         internal var messageText: TextView = itemView.findViewById(R.id.text_group_chat_message) as TextView
         internal var timeText: TextView = itemView.findViewById(R.id.text_group_chat_time) as TextView
         internal var dateText: TextView = itemView.findViewById(R.id.text_group_chat_date) as TextView
+
+        init {
+            if (isDoctorChat) {
+                messageText.setBackgroundResource(R.drawable.bg_chat_message_my_orange)
+            } else {
+                messageText.setBackgroundResource(R.drawable.bg_chat_message_my_purple)
+            }
+        }
 
         internal fun bind(message: UserMessage, channel: GroupChannel?, isContinuous: Boolean, isNewDay: Boolean) {
             messageText.text = message.message
