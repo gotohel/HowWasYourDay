@@ -43,10 +43,6 @@ class LoginActivity: AppCompatActivity() {
     }
 
     fun showSignUpLayout(view: View? = null) {
-        edit_email.setText("")
-        edit_password.setText("")
-        edit_nickname.setText("")
-
         edit_nickname.visibility = View.VISIBLE
 
         btn_login.visibility = View.GONE
@@ -57,10 +53,6 @@ class LoginActivity: AppCompatActivity() {
     }
 
     fun showLoginLayout(view: View? = null) {
-        edit_email.setText("")
-        edit_password.setText("")
-        edit_nickname.setText("")
-
         edit_nickname.visibility = View.GONE
 
         btn_login.visibility = View.VISIBLE
