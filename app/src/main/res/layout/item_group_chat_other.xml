@@ -63,7 +63,7 @@
             android:textColor="@color/orange_light"
             android:textSize="12dp"
             android:fontFamily="@font/koho_bold"
-            android:text="Need your help!"/>
+            android:text="Need your support!"/>
 
     </LinearLayout>
 

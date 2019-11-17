@@ -40,7 +40,7 @@
                 android:textSize="25dp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/koho_semibold"
-                android:text="Chats"/>
+                android:text="Messages"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                 android:layout_marginTop="6dp"
                 android:textSize="20dp"
                 android:textColor="@color/white"
-                android:text="Many people\nwill help you!"/>
+                android:text="People\nsupport you!"/>
 
         </LinearLayout>
 

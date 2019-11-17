@@ -52,6 +52,10 @@ class ChatListActivity: AppCompatActivity() {
         swipe_refresh_group_chat.setOnRefreshListener {
             refreshChannelList()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         refreshChannelList()
     }
@@ -73,8 +77,10 @@ class ChatListActivity: AppCompatActivity() {
     }
 
     fun showSubMenu(view: View) {
-        val titleWrite = "Write"
-        val titleHelp = SpannableString("Help to doctor")
+        val titleWrite = SpannableString("Write")
+        titleWrite.setSpan(TypefaceSpan(resources.getFont(R.font.koho_bold)), 0, titleWrite.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val titleHelp = SpannableString("NEED HELP")
         titleHelp.setSpan(ForegroundColorSpan(Color.parseColor("#E55555")), 0, titleHelp.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         titleHelp.setSpan(TypefaceSpan(resources.getFont(R.font.koho_bold)), 0, titleHelp.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 

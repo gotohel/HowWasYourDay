@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:fontFamily="@font/koho_extralight"
-                android:text="Your\nmentalcare friends"/>
+                android:text="Your\nmentalcare solution"/>
 
 
 
@@ -182,7 +182,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:fontFamily="@font/koho_extralight"
-                android:text="Your\nmentalcare friends"/>
+                android:text="Your\nmentalcare solution"/>
 
             <TextView
                 android:layout_width="match_parent"

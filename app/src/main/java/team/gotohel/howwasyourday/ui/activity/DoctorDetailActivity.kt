@@ -21,7 +21,8 @@ class DoctorDetailActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(team.gotohel.howwasyourday.R.layout.activity_doctor_detail)
 
-        val doctorName = intent?.getStringExtra(KEY_DOCTOR_NAME) ?: "Doctor"
+//        val doctorName = intent?.getStringExtra(KEY_DOCTOR_NAME) ?: "Doctor"
+        val doctorName = "Doctor"
 
         text_chat_title.text = (doctorName)
         text_chat_description.text = ("The doctor\nwill help you!")

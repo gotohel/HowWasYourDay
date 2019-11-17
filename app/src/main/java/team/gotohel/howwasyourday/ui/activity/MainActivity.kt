@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        text_title_main.text = "Hi, ${MyPreference.savedUserNickname}!"
+
         sheetBehavior = BottomSheetBehavior.from(bottom_sheet)
 
         // callback for do something
@@ -85,11 +87,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showSubMenu(view: View) {
-        val titleChatList = "Chat List"
-        val titleHelp = SpannableString("Help to doctor")
+        val titleChatList = SpannableString("Inbox")
+        titleChatList.setSpan(TypefaceSpan(resources.getFont(R.font.koho_bold)), 0, titleChatList.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val titleHelp = SpannableString("NEED HELP")
         titleHelp.setSpan(ForegroundColorSpan(Color.parseColor("#E55555")), 0, titleHelp.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         titleHelp.setSpan(TypefaceSpan(resources.getFont(R.font.koho_bold)), 0, titleHelp.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        val titleLogout = "Logout"
+
+        val titleLogout = SpannableString("Logout")
+        titleLogout.setSpan(TypefaceSpan(resources.getFont(R.font.koho_bold)), 0, titleLogout.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         PopupMenu(this, view).apply {
             menu.add(titleChatList)
@@ -154,10 +160,13 @@ class MainActivity : AppCompatActivity() {
                                 .subscribe()
                         }
 
-                        apiCall.analyzeDailyLog(DailyLogSimple(response.daily_log.id))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe()
+                        Handler().postDelayed({
+                            apiCall.analyzeDailyLog(DailyLogSimple(response.daily_log.id))
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe()
+                        }, 1000)
+
                     } else {
                         toast("save failed... ")
                         e?.printStackTrace()

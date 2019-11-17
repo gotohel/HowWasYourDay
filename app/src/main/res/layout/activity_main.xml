@@ -38,13 +38,14 @@
                     android:background="?selectableItemBackgroundBorderless"/>
 
                 <TextView
+                    android:id="@+id/text_title_main"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="@dimen/large_title_padding_horizontal"
                     android:textSize="25dp"
                     android:textColor="@color/white"
                     android:fontFamily="@font/koho_semibold"
-                    android:text="Hi, Dora!"/>
+                    tools:text="Hi, Dora!"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -106,7 +107,7 @@
                         android:paddingHorizontal="24dp"
                         android:lineSpacingExtra="15dp"
                         android:background="@null"
-                        android:textSize="13dp"
+                        android:textSize="17dp"
                         android:gravity="top"
                         android:hint="Enter your story here..."/>
 

@@ -56,71 +56,61 @@
 
     </FrameLayout>
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="242dp">
+        android:layout_marginTop="218dp"
+        android:translationY="24dp"
+        app:contentPaddingBottom="24dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="24dp"
+        app:cardBackgroundColor="@color/white">
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="24dp"
-            android:background="@color/white"/>
+            android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="24dp"
-            app:cardBackgroundColor="@color/white">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_chat_message"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#4D979797"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="bottom">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/list_chat_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#4D979797"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <EditText
+                    android:id="@+id/edit_message"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="bottom">
+                    android:paddingVertical="8dp"
+                    android:paddingStart="22dp"
+                    android:hint="Enter here to message..."
+                    android:minHeight="75dp"
+                    android:maxHeight="125dp"
+                    android:background="@null"/>
 
-                    <EditText
-                        android:id="@+id/edit_message"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:paddingVertical="8dp"
-                        android:paddingStart="22dp"
-                        android:hint="Enter here to message..."
-                        android:minHeight="75dp"
-                        android:maxHeight="125dp"
-                        android:background="@null"/>
-
-                    <ImageButton
-                        android:onClick="sendMessage"
-                        android:layout_width="75dp"
-                        android:layout_height="75dp"
-                        android:background="?selectableItemBackgroundBorderless"
-                        app:srcCompat="@drawable/ic_send"/>
-
-                </LinearLayout>
+                <ImageButton
+                    android:onClick="sendMessage"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:background="?selectableItemBackgroundBorderless"
+                    app:srcCompat="@drawable/ic_send"/>
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

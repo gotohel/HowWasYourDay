@@ -105,7 +105,7 @@ class ChatListAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.V
         private val textLastMessage = itemView.findViewById(R.id.text_last_message) as TextView
 
         fun bind(channel: GroupChannel, clickListener: OnItemClickListener?) {
-            textUserName.text = channel.getOtherUserName() ?: "??"
+//            textUserName.text = channel.getOtherUserName() ?: "??"
             textLastMessageTime.text = DateTimeHelper.getEditingDay(channel.lastMessage.createdAt)
             textLastMessage.text = (channel.lastMessage as? UserMessage)?.message ?: ""
 

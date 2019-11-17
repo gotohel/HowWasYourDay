@@ -31,7 +31,7 @@ class DoctorChatActivity: AppCompatActivity() {
     private var mChannel: GroupChannel? = null
     private lateinit var targetChatUrl: String
 
-    private var doctorName: String? = null
+    private var doctorName: String = "Doctor"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,7 +103,7 @@ class DoctorChatActivity: AppCompatActivity() {
     }
 
     private fun updateActionBarTitle() {
-        doctorName = mChannel?.getOtherUserName()
+//        doctorName = mChannel?.getOtherUserName()
         text_chat_title.text = ("$doctorName")
         text_chat_description.text = ("The doctor\nwill help you!")
     }

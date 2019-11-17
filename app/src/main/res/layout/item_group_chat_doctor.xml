@@ -33,7 +33,7 @@
                 android:fontFamily="@font/koho_bold"
                 android:textSize="17dp"
                 android:textColor="@color/orange"
-                tools:text="Dora Lee"/>
+                android:text="Doctor"/>
 
             <TextView
                 android:id="@+id/text_last_message_time"

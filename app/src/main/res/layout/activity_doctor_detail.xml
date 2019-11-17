@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.DoctorChatActivity">
+    tools:context=".ui.activity.DoctorDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,39 +52,49 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:onClick="callDoctor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:foreground="?selectableItemBackground"
-        android:background="@drawable/bg_main_input"
-        android:paddingTop="20dp"
-        android:paddingBottom="16dp"
-        android:paddingHorizontal="22dp"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:translationY="24dp"
+        app:contentPaddingBottom="24dp"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="24dp"
+        app:cardBackgroundColor="@color/white">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_call_made"/>
-
-        <TextView
-            android:id="@+id/text_call_title"
-            android:layout_marginTop="6dp"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/koho_bold"
-            tools:text="Contact Dr. Doraemon" />
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="16dp"
+            android:paddingHorizontal="22dp">
 
-        <TextView
-            android:id="@+id/text_call_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Call Dr. Doraemon phone number (02 1234)"
-            />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_call_made"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/text_call_title"
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/koho_bold"
+                tools:text="Contact Dr. Doraemon" />
+
+            <TextView
+                android:id="@+id/text_call_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Call Dr. Doraemon phone number (02 1234)"
+                />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

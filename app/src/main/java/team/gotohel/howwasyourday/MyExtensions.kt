@@ -15,21 +15,21 @@ import kotlinx.android.synthetic.main.dialog_progress.*
 const val MIN_INTERVAL_TIME = 1000
 
 fun Context.toast(message: String?) {
-    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    Log.d("토스트", message)
+//    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//    Log.d("토스트", message)
 }
 
 fun Context.toastDebug(message: String?) {
-    Log.d("디버깅", "$message")
-    if (BuildConfig.DEBUG_MODE) Toast.makeText(this, "[DEBUG] $message", Toast.LENGTH_SHORT).show()
+//    Log.d("디버깅", "$message")
+//    if (BuildConfig.DEBUG_MODE) Toast.makeText(this, "[DEBUG] $message", Toast.LENGTH_SHORT).show()
 }
 
 fun Context.toast(releaseMessage: String?, debugMessage: String?) {
-    if (BuildConfig.DEBUG_MODE) {
-        toast(debugMessage)
-    } else {
-        toastDebug(releaseMessage)
-    }
+//    if (BuildConfig.DEBUG_MODE) {
+//        toast(debugMessage)
+//    } else {
+//        toastDebug(releaseMessage)
+//    }
 }
 
 fun View.isDoubleClicked(): Boolean {

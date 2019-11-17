@@ -24,6 +24,13 @@ object MyPreference  {
             .putString(KEY_SAVED_USER_EMAIL, value)
             .apply()
 
+    private const val KEY_SAVED_USER_NICKNAME = "KEY_SAVED_USER_NICKNAME"
+    var savedUserNickname: String?
+        get() = getAppPreference().getString(KEY_SAVED_USER_NICKNAME, null)
+        set(value) = getAppPreference().edit()
+            .putString(KEY_SAVED_USER_NICKNAME, value)
+            .apply()
+
     private const val KEY_SAVED_USER_PASSWORD = "KEY_SAVED_USER_PASSWORD"
     var savedUserPassword: String?
         get() = getAppPreference().getString(KEY_SAVED_USER_PASSWORD, null)
