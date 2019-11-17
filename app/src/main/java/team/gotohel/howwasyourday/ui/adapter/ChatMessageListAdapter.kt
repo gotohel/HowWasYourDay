@@ -47,34 +47,41 @@ class ChatMessageListAdapter(private val mContext: Context, private val isDoctor
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = mMessageList[position]
-        var isContinuous = false
         var isNewDay = false
+        var isNewMinute = false
 
         if (position < mMessageList.size - 1) {
             val prevMessage = mMessageList[position + 1]
 
             if (!DateTimeHelper.hasSameDate(message.createdAt, prevMessage.createdAt)) {
                 isNewDay = true
-                isContinuous = false
-            } else {
-                isContinuous = isContinuous(message, prevMessage)
             }
         } else if (position == mMessageList.size - 1) {
             isNewDay = true
         }
 
+        if (position > 0) {
+            val nextMessage = mMessageList[position - 1]
+
+            if (!DateTimeHelper.hasSameMinute(message.createdAt, nextMessage.createdAt)) {
+                isNewMinute = true
+            }
+        } else if (position == 0) {
+            isNewMinute = true
+        }
+
+
+
         when (holder) {
             is MyUserMessageHolder -> holder.bind(
                 message as UserMessage,
-                mChannel,
-                isContinuous,
-                isNewDay
+                isNewDay,
+                isNewMinute
             )
             is OtherUserMessageHolder -> holder.bind(
                 message as UserMessage,
-                mChannel,
                 isNewDay,
-                isContinuous
+                isNewMinute
             )
             is AdminMessageHolder -> holder.bind(
                 message as AdminMessage,
@@ -236,35 +243,6 @@ class ChatMessageListAdapter(private val mContext: Context, private val isDoctor
             })
     }
 
-    private fun isContinuous(currentMsg: BaseMessage?, precedingMsg: BaseMessage?): Boolean {
-        // null check
-        if (currentMsg == null || precedingMsg == null) {
-            return false
-        }
-
-        if (currentMsg is AdminMessage && precedingMsg is AdminMessage) {
-            return true
-        }
-
-        var currentUser: User? = null
-        var precedingUser: User? = null
-
-        if (currentMsg is UserMessage) {
-            currentUser = currentMsg.sender
-        } else if (currentMsg is FileMessage) {
-            currentUser = currentMsg.sender
-        }
-
-        if (precedingMsg is UserMessage) {
-            precedingUser = precedingMsg.sender
-        } else if (precedingMsg is FileMessage) {
-            precedingUser = precedingMsg.sender
-        }
-
-        // If admin message or
-        return !(currentUser == null || precedingUser == null) && currentUser.userId == precedingUser.userId
-    }
-
     private inner class AdminMessageHolder internal constructor(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         private val messageText: TextView = itemView.findViewById(R.id.text_group_chat_message) as TextView
@@ -295,16 +273,21 @@ class ChatMessageListAdapter(private val mContext: Context, private val isDoctor
             }
         }
 
-        internal fun bind(message: UserMessage, channel: GroupChannel?, isContinuous: Boolean, isNewDay: Boolean) {
+        internal fun bind(message: UserMessage, isNewDay: Boolean, isNewMinute: Boolean) {
             messageText.text = message.message
-            timeText.text = DateTimeHelper.formatTime(message.createdAt)
 
-            // If the message is sent on a different date than the previous one, display the date.
             if (isNewDay) {
                 dateText.visibility = View.VISIBLE
                 dateText.text = DateTimeHelper.formatDate(message.createdAt)
             } else {
                 dateText.visibility = View.GONE
+            }
+
+            if (isNewMinute) {
+                timeText.visibility = View.VISIBLE
+                timeText.text = DateTimeHelper.formatTime(message.createdAt)
+            } else {
+                timeText.visibility = View.GONE
             }
         }
     }
@@ -314,9 +297,9 @@ class ChatMessageListAdapter(private val mContext: Context, private val isDoctor
         internal var timeText: TextView = itemView.findViewById(R.id.text_group_chat_time) as TextView
         internal var dateText: TextView = itemView.findViewById(R.id.text_group_chat_date) as TextView
 
-        internal fun bind(message: UserMessage, channel: GroupChannel?, isNewDay: Boolean, isContinuous: Boolean) {
+        internal fun bind(message: UserMessage, isNewDay: Boolean, isNewMinute: Boolean) {
+            messageText.text = message.message
 
-            // Show the date if the message was sent on a different date than the previous message.
             if (isNewDay) {
                 dateText.visibility = View.VISIBLE
                 dateText.text = DateTimeHelper.formatDate(message.createdAt)
@@ -324,8 +307,12 @@ class ChatMessageListAdapter(private val mContext: Context, private val isDoctor
                 dateText.visibility = View.GONE
             }
 
-            messageText.text = message.message
-            timeText.text = DateTimeHelper.formatTime(message.createdAt)
+            if (isNewMinute) {
+                timeText.visibility = View.VISIBLE
+                timeText.text = DateTimeHelper.formatTime(message.createdAt)
+            } else {
+                timeText.visibility = View.GONE
+            }
         }
     }
 }
