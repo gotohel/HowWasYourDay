@@ -22,6 +22,7 @@ import team.gotohel.howwasyourday.*
 import team.gotohel.howwasyourday.api.MyApiClient
 import team.gotohel.howwasyourday.model.DailyLogSimple
 import team.gotohel.howwasyourday.model.PostDailyLog
+import team.gotohel.howwasyourday.util.DateTimeHelper
 
 class MainActivity : AppCompatActivity() {
 
@@ -64,6 +65,8 @@ class MainActivity : AppCompatActivity() {
 
             true
         }
+
+        text_today.text = DateTimeHelper.formatDateYear(System.currentTimeMillis())
     }
 
     fun showBottomSheet(view: View) {

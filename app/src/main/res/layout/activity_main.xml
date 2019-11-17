@@ -61,13 +61,14 @@
                     android:layout_weight="1"/>
 
                 <TextView
+                    android:id="@+id/text_today"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="36dp"
                     android:layout_gravity="center_horizontal"
                     android:textSize="14dp"
                     android:textColor="@color/white"
-                    android:text="Nov 15, 2019"/>
+                    tools:text="Nov 15, 2019"/>
 
             </LinearLayout>
 

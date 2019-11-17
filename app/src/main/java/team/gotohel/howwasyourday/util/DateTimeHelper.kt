@@ -279,6 +279,11 @@ object DateTimeHelper {
     }
 
 
+    fun formatDateYear(timeInMillis: Long): String {
+        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+        return dateFormat.format(timeInMillis)
+    }
+
     fun formatDate(timeInMillis: Long): String {
         val dateFormat = SimpleDateFormat("MMMM dd", Locale.getDefault())
         return dateFormat.format(timeInMillis)
