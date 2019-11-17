@@ -56,6 +56,14 @@ class MainActivity : AppCompatActivity() {
                 bottom_buttons.visibility = View.VISIBLE
             }
         }
+
+        btn_edit.setOnLongClickListener {
+            edit_daily_log.setText("")
+            btn_edit.visibility = View.INVISIBLE
+            btn_save.visibility = View.VISIBLE
+
+            true
+        }
     }
 
     fun showBottomSheet(view: View) {

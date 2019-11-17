@@ -70,8 +70,6 @@ class ChatMessageListAdapter(private val mContext: Context, private val isDoctor
             isNewMinute = true
         }
 
-
-
         when (holder) {
             is MyUserMessageHolder -> holder.bind(
                 message as UserMessage,
