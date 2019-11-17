@@ -1,16 +1,16 @@
 package team.gotohel.howwasyourday.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sendbird.android.*
+import com.sendbird.android.BaseChannel
+import com.sendbird.android.BaseMessage
+import com.sendbird.android.GroupChannel
+import com.sendbird.android.SendBird
 import kotlinx.android.synthetic.main.activity_chat_detail.*
-import team.gotohel.howwasyourday.R
-import team.gotohel.howwasyourday.toast
+import team.gotohel.howwasyourday.*
 import team.gotohel.howwasyourday.ui.adapter.ChatMessageListAdapter
 import team.gotohel.howwasyourday.util.SendBirdUtils
 
@@ -100,12 +100,11 @@ class ChatDetailActivity: AppCompatActivity() {
     }
 
     private fun updateActionBarTitle() {
-        if (mChannel != null && mChannel!!.memberCount >= 2) {
-            text_chat_title.text = mChannel!!.members.joinToString(" & ") { it.nickname }
-            text_chat_description.text = ("${mChannel!!.members[0].nickname} need\nyour support")
-        } else {
-            text_chat_title.text = "Chat"
-            text_chat_description.text = ""
+        text_chat_title.text = ("${mChannel?.getToUserName()} & ${mChannel?.getFromUserName()}")
+        text_chat_description.text = when {
+            mChannel?.getFromUserId() == MyPreference.savedUserId -> ("${mChannel?.getOtherUserName()} may\nsupport you")
+            mChannel?.getToUserId() == MyPreference.savedUserId -> ("${mChannel?.getOtherUserName()} need\nyour support")
+            else -> ""
         }
     }
 

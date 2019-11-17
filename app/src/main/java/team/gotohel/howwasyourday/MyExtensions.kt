@@ -79,3 +79,15 @@ fun GroupChannel.getOtherUserName(): String? {
         null
     }
 }
+
+fun GroupChannel.getUserNameOf(id: Int): String? {
+    return members.firstOrNull { it.userId == id.toString() }?.nickname
+}
+
+fun GroupChannel.getFromUserName(): String? {
+    return getFromUserId()?.let { getUserNameOf(it) }
+}
+
+fun GroupChannel.getToUserName(): String? {
+    return getToUserId()?.let { getUserNameOf(it) }
+}
