@@ -5,20 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.ChatDetailActivity">
+    tools:context=".ui.activity.DoctorChatActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/large_title_height"
-        android:background="@drawable/bg_purple_gradation">
+        android:background="@drawable/bg_orange_gradation">
 
         <ImageView
-            android:layout_width="175dp"
+            android:layout_width="109dp"
             android:layout_height="115dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="20dp"
             android:layout_gravity="bottom|end"
-            android:src="@drawable/group"/>
+            android:src="@drawable/sitting_person"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,37 +69,13 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <View
+        <Button
+            android:onClick="showDoctorDetail"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#4D979797"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="bottom">
-
-            <EditText
-                android:id="@+id/edit_message"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
-                android:paddingStart="22dp"
-                android:hint="Enter here to message..."
-                android:minHeight="75dp"
-                android:maxHeight="125dp"
-                android:background="@null"/>
-
-            <ImageButton
-                android:onClick="sendMessage"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:background="?selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_send"/>
-
-        </LinearLayout>
+            android:layout_height="55dp"
+            android:text="YES, I NEED DOCTOR’S HELP"
+            android:fontFamily="@font/koho_bold"
+            android:background="?selectableItemBackground"/>
 
     </LinearLayout>
 

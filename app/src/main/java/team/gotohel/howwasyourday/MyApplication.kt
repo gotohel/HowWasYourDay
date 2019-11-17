@@ -12,14 +12,6 @@ class MyApplication: Application() {
         val context: Context
             get() = instance!!
 
-        fun toast(message: String) {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-        }
-        fun toastDebug(message: String) {
-            if (BuildConfig.DEBUG_MODE) {
-                Toast.makeText(context, "[DEBUG]$message", Toast.LENGTH_SHORT).show()
-            }
-        }
         val SEND_BIRD_APP_ID
             get() = instance?.resources?.getString(R.string.send_bird_app_id) ?: ""
 

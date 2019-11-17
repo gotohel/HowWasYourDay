@@ -1,174 +1,38 @@
 package team.gotohel.howwasyourday.ui.activity
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.sendbird.android.BaseChannel
-import com.sendbird.android.BaseMessage
-import com.sendbird.android.GroupChannel
-import com.sendbird.android.SendBird
-import kotlinx.android.synthetic.main.activity_chat_detail.*
-import team.gotohel.howwasyourday.*
-import team.gotohel.howwasyourday.ui.adapter.ChatMessageListAdapter
-import team.gotohel.howwasyourday.util.SendBirdUtils
+import kotlinx.android.synthetic.main.activity_doctor_detail.*
+import kotlinx.android.synthetic.main.activity_normal_chat.text_chat_description
+import kotlinx.android.synthetic.main.activity_normal_chat.text_chat_title
+
 
 class DoctorDetailActivity: AppCompatActivity() {
 
     companion object {
-        const val KEY_CHAT_URL = "KEY_CHAT_URL"
-
-        const val CONNECTION_HANDLER_ID = "CONNECTION_HANDLER_GROUP_CHAT"
-        const val CHANNEL_HANDLER_ID = "CHANNEL_HANDLER_GROUP_CHANNEL_CHAT"
-        const val CHANNEL_LIST_LIMIT = 30
+        const val KEY_DOCTOR_NAME = "KEY_DOCTOR_NAME"
     }
 
-    private lateinit var mLayoutManager: LinearLayoutManager
-    private val chatMessageListAdapter =  ChatMessageListAdapter(this, true)
-
-    private var mChannel: GroupChannel? = null
-    private lateinit var targetChatUrl: String
-
+    val phoneNumber = "010-4522-0517"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_doctor_detail)
+        setContentView(team.gotohel.howwasyourday.R.layout.activity_doctor_detail)
 
-        val iChatUrl = intent.getStringExtra(KEY_CHAT_URL)
+        val doctorName = intent?.getStringExtra(KEY_DOCTOR_NAME) ?: "Doctor"
 
-        if (iChatUrl == null) {
-            toast("Can't find chat")
-            finish()
-        } else {
-            targetChatUrl = iChatUrl
-
-            mLayoutManager = LinearLayoutManager(this).apply {
-                reverseLayout = true
-            }
-            list_chat_message.layoutManager = mLayoutManager
-            list_chat_message.adapter = chatMessageListAdapter
-
-            list_chat_message.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    if (mLayoutManager.findLastVisibleItemPosition() == chatMessageListAdapter.itemCount - 1) {
-                        chatMessageListAdapter.loadPreviousMessages(CHANNEL_LIST_LIMIT, null)
-                    }
-                }
-            })
-        }
-    }
-
-    private fun refresh() {
-        if (mChannel == null) {
-            GroupChannel.getChannel(targetChatUrl,
-                GroupChannel.GroupChannelGetHandler { groupChannel, e ->
-                    if (e != null) {
-                        // Error!
-                        e.printStackTrace()
-                        return@GroupChannelGetHandler
-                    }
-
-                    mChannel = groupChannel
-                    chatMessageListAdapter.setChannel(mChannel!!)
-                    chatMessageListAdapter.loadLatestMessages(
-                        CHANNEL_LIST_LIMIT,
-                        BaseChannel.GetMessagesHandler { list, e ->
-                            chatMessageListAdapter.markAllMessagesAsRead()
-                        }
-                    )
-
-                    updateActionBarTitle()
-                })
-        } else {
-            mChannel!!.refresh(GroupChannel.GroupChannelRefreshHandler { e ->
-                if (e != null) {
-                    // Error!
-                    e.printStackTrace()
-                    return@GroupChannelRefreshHandler
-                }
-
-                chatMessageListAdapter.loadLatestMessages(
-                    CHANNEL_LIST_LIMIT,
-                    BaseChannel.GetMessagesHandler { list, e ->
-                        chatMessageListAdapter.markAllMessagesAsRead()
-                    }
-                )
-
-                updateActionBarTitle()
-            })
-        }
-    }
-
-    private fun updateActionBarTitle() {
-        text_chat_title.text = ("${mChannel?.getOtherUserName()}")
+        text_chat_title.text = (doctorName)
         text_chat_description.text = ("The doctor\nwill help you!")
+        text_doctor_instruction.text = ("Hi! I’m $doctorName, I will help you.\n\nAs far as I’m converned, you seem to have symptoms of depression.\n\nIf nothing behavior as it is, there could be a big problem.\nI’ll help you heal your mind.\n\nHere is my contact number. If you want care your mind from me, please contact me.\n\nI hope to see you soon.\nThank you,")
+        text_call_title.text = ("Contact $doctorName")
+        text_call_description.text = ("Call $doctorName phone number ($phoneNumber)")
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        SendBirdUtils.addConnectionManagementHandler(
-            CONNECTION_HANDLER_ID,
-            object : SendBirdUtils.ConnectionManagementHandler {
-                override fun onConnected(reconnect: Boolean) {
-                    refresh()
-                }
-            })
-
-        SendBird.addChannelHandler(CHANNEL_HANDLER_ID, object : SendBird.ChannelHandler() {
-            override fun onMessageReceived(baseChannel: BaseChannel, baseMessage: BaseMessage) {
-                if (baseChannel.url == targetChatUrl) {
-                    chatMessageListAdapter.markAllMessagesAsRead()
-                    // Add new message to view
-                    chatMessageListAdapter.addFirst(baseMessage)
-                }
-            }
-
-            override fun onMessageDeleted(baseChannel: BaseChannel?, msgId: Long) {
-                super.onMessageDeleted(baseChannel, msgId)
-                if (baseChannel!!.url == targetChatUrl) {
-                    chatMessageListAdapter.delete(msgId)
-                }
-            }
-
-            override fun onMessageUpdated(channel: BaseChannel?, message: BaseMessage?) {
-                super.onMessageUpdated(channel, message)
-                if (channel!!.url == targetChatUrl) {
-                    chatMessageListAdapter.update(message!!)
-                }
-            }
-
-            override fun onReadReceiptUpdated(channel: GroupChannel?) {
-                if (channel!!.url == targetChatUrl) {
-                    chatMessageListAdapter.notifyDataSetChanged()
-                }
-            }
-
-            override fun onTypingStatusUpdated(channel: GroupChannel?) {
-
-            }
-        })
-    }
-
-    override fun onPause() {
-        SendBirdUtils.removeConnectionManagementHandler(CONNECTION_HANDLER_ID)
-        SendBird.removeChannelHandler(CHANNEL_HANDLER_ID)
-        super.onPause()
-    }
-
-    fun sendMessage(view: View) {
-        val userInput = edit_message.text.toString()
-        if (userInput.isNotEmpty()) {
-            mChannel?.sendUserMessage(userInput) { userMessage, e ->
-                if (e != null) {
-                    // Error!
-                    toast("Send failed with error " + e.code + ": " + e.message)
-                } else {
-                    edit_message.setText("")
-                    chatMessageListAdapter.addFirst(userMessage)
-                }
-            }
-        }
+    fun callDoctor(view: View) {
+        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+        startActivity(intent)
     }
 
     fun backToChatList(view: View) {

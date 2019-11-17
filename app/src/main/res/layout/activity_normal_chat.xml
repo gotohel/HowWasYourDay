@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.NormalChatActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/large_title_height"
+        android:background="@drawable/bg_purple_gradation">
+
+        <ImageView
+            android:layout_width="175dp"
+            android:layout_height="115dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/group"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:onClick="backToChatList"
+                android:layout_width="@dimen/action_bar_size"
+                android:layout_height="@dimen/action_bar_size"
+                app:srcCompat="@drawable/ic_arrow_back_white_24dp"
+                android:background="?selectableItemBackgroundBorderless"/>
+
+            <TextView
+                android:id="@+id/text_chat_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/large_title_padding_horizontal"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/koho_semibold"
+                tools:text="Dora and Jay"/>
+
+            <TextView
+                android:id="@+id/text_chat_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/large_title_padding_horizontal"
+                android:layout_marginTop="6dp"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                tools:text="Jay need\nyour support"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="242dp"
+        android:background="@drawable/bg_main_input">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_chat_message"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#4D979797"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+            <EditText
+                android:id="@+id/edit_message"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:paddingStart="22dp"
+                android:hint="Enter here to message..."
+                android:minHeight="75dp"
+                android:maxHeight="125dp"
+                android:background="@null"/>
+
+            <ImageButton
+                android:onClick="sendMessage"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="?selectableItemBackgroundBorderless"
+                app:srcCompat="@drawable/ic_send"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

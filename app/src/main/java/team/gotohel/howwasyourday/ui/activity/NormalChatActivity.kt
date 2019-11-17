@@ -9,12 +9,12 @@ import com.sendbird.android.BaseChannel
 import com.sendbird.android.BaseMessage
 import com.sendbird.android.GroupChannel
 import com.sendbird.android.SendBird
-import kotlinx.android.synthetic.main.activity_chat_detail.*
+import kotlinx.android.synthetic.main.activity_normal_chat.*
 import team.gotohel.howwasyourday.*
 import team.gotohel.howwasyourday.ui.adapter.ChatMessageListAdapter
 import team.gotohel.howwasyourday.util.SendBirdUtils
 
-class ChatDetailActivity: AppCompatActivity() {
+class NormalChatActivity: AppCompatActivity() {
 
     companion object {
         const val KEY_CHAT_URL = "KEY_CHAT_URL"
@@ -32,7 +32,7 @@ class ChatDetailActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chat_detail)
+        setContentView(R.layout.activity_normal_chat)
 
         val iChatUrl = intent.getStringExtra(KEY_CHAT_URL)
 
