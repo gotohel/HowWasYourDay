@@ -55,21 +55,40 @@
 
     </FrameLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_group_chat"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="242dp"
-        android:background="@drawable/bg_main_input">
+        android:layout_marginTop="242dp">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_group_chat"
+        <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="12dp"/>
+            android:layout_marginTop="24dp"
+            android:background="@color/white"/>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="24dp"
+            app:cardBackgroundColor="@color/white">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh_group_chat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list_group_chat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingTop="12dp"/>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
 
 </FrameLayout>

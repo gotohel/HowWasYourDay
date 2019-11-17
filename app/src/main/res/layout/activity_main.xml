@@ -74,65 +74,85 @@
 
         </FrameLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="242dp"
-            android:background="@drawable/bg_main_input">
+            android:layout_marginTop="242dp">
 
-            <team.gotohel.howwasyourday.ui.view.LinedEditText
-                android:id="@+id/edit_daily_log"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="18dp"
-                android:paddingHorizontal="24dp"
-                android:lineSpacingExtra="15dp"
-                android:background="@null"
-                android:textSize="13dp"
-                android:gravity="top"
-                android:hint="Enter your story here..."/>
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:background="@color/white"/>
 
-            <LinearLayout
-                tools:visibility="visible"
-                android:visibility="invisible"
-                android:id="@+id/bottom_buttons"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="24dp"
+                app:cardBackgroundColor="@color/white">
 
-                <Button
-                    tools:visibility="visible"
-                    android:visibility="invisible"
-                    android:id="@+id/btn_edit"
-                    android:onClick="editBottomSheet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:fontFamily="@font/koho_bold"
-                    android:text="EDIT"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"/>
+                    <team.gotohel.howwasyourday.ui.view.LinedEditText
+                        android:id="@+id/edit_daily_log"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="18dp"
+                        android:paddingHorizontal="24dp"
+                        android:lineSpacingExtra="15dp"
+                        android:background="@null"
+                        android:textSize="13dp"
+                        android:gravity="top"
+                        android:hint="Enter your story here..."/>
 
-                <Button
-                    android:visibility="visible"
-                    android:id="@+id/btn_save"
-                    android:onClick="showBottomSheet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:fontFamily="@font/koho_bold"
-                    android:text="SAVE AND PUBLISH"/>
+                    <LinearLayout
+                        tools:visibility="visible"
+                        android:visibility="invisible"
+                        android:id="@+id/bottom_buttons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-            </LinearLayout>
+                        <Button
+                            tools:visibility="visible"
+                            android:visibility="invisible"
+                            android:id="@+id/btn_edit"
+                            android:onClick="editBottomSheet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:fontFamily="@font/koho_bold"
+                            android:text="EDIT"/>
 
-        </LinearLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"/>
+
+                        <Button
+                            android:visibility="visible"
+                            android:id="@+id/btn_save"
+                            android:onClick="showBottomSheet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:fontFamily="@font/koho_bold"
+                            android:text="SAVE AND PUBLISH"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
 
         <View
             android:onClick="hideBottomSheet"
